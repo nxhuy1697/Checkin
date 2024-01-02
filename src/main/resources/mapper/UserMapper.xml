@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fis.abcBank.mapper.UserMapper">
+
+    <!--Create new account-->
+    <insert id="createAccount"
+            parameterType="fis.abcBank.dto.request.UserRequest"
+           >
+        insert into users (
+            "user_id",
+            "name",
+            "passwords",
+            "dob",
+            "sex",
+            "country",
+            "phone",
+            "account",
+            "role_id",
+            "created_time",
+            "status_id",
+                           "department_id"
+        ) VALUES (
+             #{userId},
+             #{name},
+             #{passwords},
+             #{dob},
+             #{sex},
+             #{country},
+             #{phone},
+             #{account},
+             #{roleId},
+             NOW(),
+             #{statusId},
+                  #{departmentId}
+                 )
+
+    </insert>
+    <select id="getNextUserId" resultType="Integer">
+        SELECT COUNT(*) + 1 FROM users
+    </select>
+
+    <!--    check duplicate-->
+    <select id="checkAccountDuplicate"
+            parameterType="fis.abcBank.dto.request.UserRequest"
+            resultType="Integer"
+            >
+        select count(*) from users
+        where account = #{account}
+    </select>
+
+    <select id="findByAccountAndPass" resultType="fis.abcBank.dto.response.UserResponse">
+        select *
+        from users
+        where account = #{account} AND passwords = #{passwords}
+    </select>
+    <select id="getAllAccount"
+            resultType="fis.abcBank.dto.request.UserRequest"
+           >
+        select * from users
+        <where>
+            <if test="userId != null and userId !=''">
+                <![CDATA[ AND  "user_id" ILIKE CONCAT('%' || #{userId} ||'%')]]>
+            </if>
+            <if test="name != null and name !=''">
+                <![CDATA[and  "name" ILIKE CONCAT('%' || #{name} ||'%')]]>
+            </if>
+        </where>
+        ORDER BY "user_id" ASC
+
+    </select>
+    <update id="updateAccount">
+        <![CDATA[
+            update users
+            set  "name" = #{name},
+                 "passwords" = #{passwords},
+                 "dob" = #{dob},
+                 "sex" = #{sex},
+                 "country" = #{country},
+                 "phone" = #{phone},
+                 "role_id" = #{roleId},
+                 "status_id" = #{statusId},
+                 "edit_time" = now()
+            where "user_id" = #{userId}
+            ]]>
+    </update>
+<!--    <update id="statusAccount" parameterType="fis.abcBank.dto.response.UserResponse" >-->
+<!--            <foreach collection="accounts" item="account" separator=";">-->
+<!--                update users-->
+<!--                set "status_id" = #{statusId},-->
+<!--                "edit_time" = now()-->
+<!--                where "account" = #{account}-->
+<!--            </foreach>-->
+<!--    </update>-->
+
+
+</mapper>

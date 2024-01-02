@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fis.abcBank.mapper.CheckinMapper">
+
+    <insert id="createCheckin"
+            parameterType="fis.abcBank.dto.response.UserResponse">
+        insert
+        into checkin
+        (account, checkin_time, checkin_date, working_id)
+        values
+        (#{account}, NOW(), NOW(),(SELECT id FROM working_hours
+                                   WHERE EXTRACT(DOW FROM NOW()) = day_of_week
+                                     AND CAST(NOW() AS TIME) BETWEEN start_time AND end_time) )
+    </insert>
+
+    <update id="createCheckout">
+            <![CDATA[
+        update checkin
+        set "checkout_time" = NOW()
+        where "account" = #{account} and DATE(checkin_time) = CURRENT_DATE
+        ]]>
+
+    </update>
+
+    <select id="checkDupUserIn" resultType="java.lang.Integer">
+        select count(*) from checkin where "account" = #{account} and "checkin_date" = CURRENT_DATE
+    </select>
+
+    <select id="getAllCheckin" resultType="fis.abcBank.dto.response.CheckoutResponse">
+        SELECT u.user_id, u.name, u.account, u.role_id, u.passwords, c.id AS checkinId, c.checkout_time, c.checkin_date, c.checkin_time
+        FROM users u
+                 LEFT JOIN checkin c ON u.account = c.account
+        <where>
+            <if test="userId != null and userId !=''">
+                <![CDATA[ AND  "user_id" ILIKE CONCAT('%' || #{userId} ||'%')]]>
+            </if>
+            <if test="name != null and name !=''">
+                <![CDATA[and  "name" ILIKE CONCAT('%' || #{name} ||'%')]]>
+            </if>
+            <if test="roleId != null and roleId !=''">
+                <![CDATA[and  "role_id" = #{roleId}]]>
+            </if>
+            <if test="checkinDate != null">
+                <![CDATA[and  "checkin_date" = #{checkinDate}]]>
+            </if>
+        </where>
+        ORDER BY c.checkin_date DESC
+
+    </select>
+
+
+</mapper>

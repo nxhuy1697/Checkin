@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fis.abcBank.mapper.DepartmentMapper">
+    <insert id="createDepartment" parameterType="fis.abcBank.dto.response.DepartmentResponse">
+        insert into department(
+                               "id",
+           "department_name",
+           "branch",
+           "note"
+        ) values (
+                  #{id},
+          #{departmentName},
+          #{branch},
+          #{note}
+
+        )
+    </insert>
+
+    <select id="getAllDepartment" resultType="fis.abcBank.dto.response.DepartmentResponse">
+        select * from department
+        <where>
+            <if test="departmentName != null and departmentName !=''">
+                <![CDATA[and  "department_name" ILIKE CONCAT('%' || #{departmentName} ||'%')]]>
+            </if>
+            <if test="branch != null and branch !=''">
+                <![CDATA[and  "branch" ILIKE CONCAT('%' || #{branch} ||'%')]]>
+            </if>
+        </where>
+    </select>
+
+
+</mapper>
