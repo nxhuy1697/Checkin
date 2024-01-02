@@ -1,0 +1,192 @@
+<div class="container-fluid">
+  <!-- search  -->
+  <div class="content mb-2">
+    <h2>Báo cáo chi tiết ra vào</h2>
+    <div class="row">
+      <div class="col-12">
+        <div class="p-2">
+          <div [formGroup]="searchCheckin">
+            <div class="row">
+              <!-- id  -->
+              <div class="col-sm-6 col-md-3">
+                <label class="col-form-label">ID</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="ID"
+                  aria-label="Nhập ID"
+                  formControlName="userId"
+                  (keyup.enter)="search()"
+                />
+              </div>
+              <!-- name  -->
+              <div class="col-sm-6 col-md-3">
+                <label class="col-form-label">Tên</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Tên"
+                  aria-label="Nhập tên"
+                  formControlName="name"
+                  (keyup.enter)="search()"
+                />
+              </div>
+              <!-- role  -->
+              <div class="col-sm-6 col-md-3">
+                <label class="col-form-label">Chức vụ</label>
+                <select
+                formControlName="roleId"
+                class="form-control"
+
+              >
+                <option *ngFor="let role of role" [value]="role.id">
+                  {{ role.roleName }}
+                </option>
+              </select>
+              </div>
+              <!-- search theo ngay   -->
+              <div class="col-sm-6 col-md-3">
+                <label class="col-form-label">Ngày</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder="nhập ngày"
+                  formControlName="checkinDate"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row pt-3">
+      <div class="col-4 text-left">
+      
+      </div>
+      
+      <div class="col-8 text-right">
+        <button
+          type="button"
+          class="btn btn-secondary mr-1 mb-1"
+          (click)="onReset()"
+        >
+          <i class="fas fa-undo-alt mr-1"></i> Refresh
+        </button>
+        <button
+          type="button"
+          class="btn btn-success mr-1 mb-1"
+          (click)="search()"
+        >
+          <i class="fas fa-search mr-1"></i>Search
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- table  -->
+  <div class="content-table">
+    <div class="row">
+      <div class="col">
+        <div class="card shadow">
+          <div class="card-header border-0">
+            <h3 class="mb-0">Thông tin chi tiết</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Mã NV</th>
+                  <th scope="col">Họ và tên</th>
+                  <th scope="col">Chức vụ</th>
+                  <th scope="col">Ngày</th>
+                  <th scope="col">Thời gian checkin</th>
+                  <th scope="col">Thời gian checkout</th>
+                  <th scope="col">Thời gian làm việc</th>
+             
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td
+                    *ngIf="!listCheckin || listCheckin?.length === 0"
+                    class="text-center align-middle"
+                    colspan="7"
+                  >
+                    No data
+                  </td>
+                </tr>
+                <tr *ngFor="let item of listCheckin; let i = index">
+                  <th scope="row">
+                    <span class="mb-0 text-sm">{{ item?.userId }}</span>
+                  </th>
+                  <td>
+                    <span class="mb-0 text-sm"> {{ item?.name }} </span>
+                  </td>
+                  <td>
+                    <span class="mb-0 text-sm">{{
+                      item?.roleId == "1" ? "ADMIN" : "EMPLOYEE"
+                    }}</span>
+                  </td>
+                  <td>
+                    <span class="mb-0 text-sm"> {{ item?.checkinDate | date: 'dd/MM/yyyy'   }} </span>
+                  </td>
+                
+                  <td>
+                    <span class="mb-0 text-sm"> {{ formatTime(item?.checkinTime )}} </span>
+                  </td>
+                  <td>
+                    <span class="mb-0 text-sm"> {{ formatTime(item?.checkoutTime) }} </span>
+                  </td>
+                  <td>
+                    <span class="mb-0 text-sm"> {{formatWorkTime(item?.checkoutTime , item?.checkinTime) }} </span>
+                  </td>
+                 
+                  <td class="mb-0">
+                    <!-- <i
+                    class="fas fa-edit fa-lg text-primary m-cursor"
+                    title="Update"
+                    (click)="openModal(item, 'edit')"
+                  ></i> -->
+                    <!-- <i
+                    class="fas fa-trash-alt fa-lg text-danger ml-1 m-cursor"
+                    title="Delete"
+                  ></i> -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card-footer py-4">
+            <nav aria-label="...">
+              <ul class="pagination justify-content-end mb-0">
+                <li class="page-item disabled">
+                  <a class="page-link" href="javascript:void(0)" tabindex="-1">
+                    <i class="fas fa-angle-left"></i>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+                <li class="page-item active">
+                  <a class="page-link" href="javascript:void(0)">1</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="javascript:void(0)"
+                    >2 <span class="sr-only">(current)</span></a
+                  >
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="javascript:void(0)">3</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="javascript:void(0)">
+                    <i class="fas fa-angle-right"></i>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<section>
+    <div class="container mt-8 pb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-7">
+                <div class="card bg-secondary  border-0">
+                    <div class="card-header bg-transparent pb-5">
+                        <h1 class="">
+                            Sign in to your account
+                        </h1>
+                    </div>
+                    <div class="card-body px-lg-5 py-lg-5">
+                        <form class="px-4 py-3" [formGroup] = "loginForm" (ngSubmit)="onSubmit()"  >
+                            <!-- Account name  -->
+                            <div class="form-group">
+                                <label for="account" class=""> Account </label>
+                                <input type="text" 
+                                id="account" 
+                                formControlName="account" 
+                        
+                                class="form-control" 
+                                placeholder="Your account">
+                            </div>
+                           
+                        
+                            <!-- Password  -->
+                            <div class="form-group">
+                                <label for="passwords" class="">Password</label>
+                                <input type="password" 
+                                name="passwords" 
+                                id="passwords" 
+                                placeholder="••••••••" 
+                                formControlName="passwords"
+                        
+                                class="form-control" >
+                            </div>
+                            
+                           
+                            <button type="submit" class="btn btn-primary">Sign in</button>
+                           
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</section>
+
+
+
+
+
+
+
+
+<div class="col-lg-5 col-md-7">
+  
+</div>

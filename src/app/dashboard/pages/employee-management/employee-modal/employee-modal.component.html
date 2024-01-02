@@ -1,0 +1,245 @@
+<div class="container-fluid p-4 emp-modal">
+  <div class="d-flex justify-content-between">
+    <h4>
+      {{
+        type === "add"
+          ? "Thêm mới nhân viên"
+          : type === "edit"
+          ? "Cập nhật"
+          : "chi tiet"
+      }}
+    </h4>
+    <button
+      (click)="activeModal.dismiss('Cross click')"
+      aria-label="Close"
+      class="close border-0"
+      type="button rounded"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="row content">
+    <div class="col-12">
+      <div class="p-2">
+        <!-- Form  -->
+
+        <div [formGroup]="regForm" class="regForm">
+          <div class="row">
+            <!-- usser id  -->
+            <label class="col-sm-4 col-md-6 col-lg-5 col-xl-2 col-form-label"
+              >Mã nhân viên</label
+            >
+            <div class="col-sm-7 col-md-6 col-lg-7 col-xl-4">
+              <input
+              [ngClass]="{ 'is-invalid': isSubmit && f.userId.errors }"
+                type="text"
+                class="form-control"
+                placeholder="Mã"
+                formControlName="userId"
+              />
+              <div class="text-danger" *ngIf="isSubmit && f.userId.errors">
+                <span *ngIf="f.userId.errors?.required">
+                 vui lòng nhập thông tin
+                </span>
+               
+              </div>
+            </div>
+            <!-- name  -->
+            <label class="col-sm-4 col-md-6 col-lg-5 col-xl-2 col-form-label"
+              >Họ và tên</label
+            >
+            <div class="col-sm-7 col-md-6 col-lg-7 col-xl-4">
+              <input
+              [ngClass]="{ 'is-invalid': isSubmit && f.name.errors }"
+                type="text"
+                class="form-control"
+                placeholder="Họ và tên"
+                formControlName="name"
+              />
+              <div class="text-danger" *ngIf="isSubmit && f.name.errors">
+                <span *ngIf="f.name.errors?.required">
+                 vui lòng nhập thông tin
+                </span>
+               
+              </div>
+            </div>
+            <!-- dob  -->
+            <label
+              class="col-sm-4 col-md-6 col-lg-5 col-xl-2 col-form-label mt-2"
+              >Ngày sinh</label
+            >
+            <div class="col-sm-7 col-md-6 col-lg-7 col-xl-4">
+              <input
+              [ngClass]="{ 'is-invalid': isSubmit && f.dob.errors }"
+                type="date"
+                class="form-control mt-2"
+                formControlName="dob"
+              />
+              <div class="text-danger" *ngIf="isSubmit && f.dob.errors">
+                <span *ngIf="f.dob.errors?.required">
+                 vui lòng nhập thông tin
+                </span>
+               
+              </div>
+            </div>
+            <!-- pww  -->
+            <label
+              class="col-sm-4 col-md-6 col-lg-5 col-xl-2 col-form-label mt-2"
+              >Mật khẩu</label
+            >
+            <div class="col-sm-7 col-md-6 col-lg-7 col-xl-4">
+              <input
+              [ngClass]="{ 'is-invalid': isSubmit && f.passwords.errors }"
+                type="text"
+                class="form-control mt-2"
+                placeholder="Mật Khẩu"
+                formControlName="passwords"
+              />
+              <div class="text-danger" *ngIf="isSubmit && f.passwords.errors">
+                <span *ngIf="f.passwords.errors?.required">
+                 vui lòng nhập thông tin
+                </span>
+               
+              </div>
+            </div>
+            <!-- phone  -->
+            <label
+              class="col-sm-4 col-md-6 col-lg-5 col-xl-2 col-form-label mt-2"
+              >Phone</label
+            >
+            <div class="col-sm-7 col-md-6 col-lg-7 col-xl-4">
+              <input
+              [ngClass]="{ 'is-invalid': isSubmit && f.phone.errors }"
+                type="text"
+                class="form-control mt-2"
+                placeholder="Điện thoại"
+                formControlName="phone"
+              />
+              <div class="text-danger" *ngIf="isSubmit && f.phone.errors">
+                <span *ngIf="f.phone.errors?.required">
+                 vui lòng nhập thông tin
+                </span>
+               
+              </div>
+            </div>
+            <!-- ussername  -->
+            <label
+              class="col-sm-4 col-md-6 col-lg-5 col-xl-2 col-form-label mt-2"
+              >Tên đăng nhập</label
+            >
+            <div class="col-sm-7 col-md-6 col-lg-7 col-xl-4">
+              <input
+              [ngClass]="{ 'is-invalid': isSubmit && f.account.errors }"
+                type="text"
+                class="form-control mt-2"
+                placeholder="Tên đăng nhập"
+                formControlName="account"
+              />
+              <div class="text-danger" *ngIf="isSubmit && f.account.errors">
+                <span *ngIf="f.account.errors?.required">
+                 vui lòng nhập thông tin
+                </span>
+               
+              </div>
+            </div>
+            <!-- country  -->
+            <label
+              class="col-sm-4 col-md-6 col-lg-5 col-xl-2 col-form-label mt-2"
+              >Quê quán</label
+            >
+            <div class="col-sm-7 col-md-6 col-lg-7 col-xl-4">
+              <input
+              [ngClass]="{ 'is-invalid': isSubmit && f.country.errors }"
+                type="text"
+                class="form-control mt-2"
+                placeholder="Quê quán"
+                formControlName="country"
+              />
+              <div class="text-danger" *ngIf="isSubmit && f.country.errors">
+                <span *ngIf="f.country.errors?.required">
+                 vui lòng nhập thông tin
+                </span>
+               
+              </div>
+            </div>
+            <!-- roleId  -->
+            <label
+              class="col-sm-4 col-md-6 col-lg-5 col-xl-2 col-form-label mt-2"
+              >Chức vụ</label
+            >
+            <div class="col-sm-7 col-md-6 col-lg-7 col-xl-4">
+              <select
+              
+                formControlName="roleId"
+                class="form-control mt-2"
+                placeholder=""
+              >
+                <option *ngFor="let role of listRole" [value]="role.id">
+                  {{ role.roleName }}
+                </option>
+              </select>
+            </div>
+            <!-- gender  -->
+            <label
+              class="col-sm-4 col-md-6 col-lg-5 col-xl-2 col-form-label mt-2"
+              >Giới tính</label
+            >
+            <div class="col-sm-7 col-md-6 col-lg-7 col-xl-4">
+              <select
+                formControlName="sex"
+                class="form-control"
+                placeholder="Chọn giới tính"
+              >
+                <option *ngFor="let sex of listSex" [value]="sex.id">
+                  {{ sex.sexName }}
+                </option>
+              </select>
+            </div>
+            <!-- status  -->
+            <label
+              class="col-sm-4 col-md-6 col-lg-5 col-xl-2 col-form-label mt-2"
+              >Trạng thái</label
+            >
+            <div class="col-sm-7 col-md-6 col-lg-7 col-xl-4">
+              <select
+                formControlName="statusId"
+                class="form-control"
+                placeholder="Chọn giới tính"
+              >
+                <option *ngFor="let status of listStatus" [value]="status.id">
+                  {{ status.statusName }}
+                </option>
+              </select>
+            </div>
+            <!-- phong ban  -->
+            <label
+            class="col-sm-4 col-md-6 col-lg-5 col-xl-2 col-form-label mt-2"
+            > phòng ban</label
+          >
+          <div class="col-sm-7 col-md-6 col-lg-7 col-xl-4">
+            <select
+              formControlName="departmentId"
+              class="form-control"
+              placeholder=""
+            >
+              <option *ngFor="let department of listDepartment" [value]="department.id">
+                {{ department.departmentName }}
+              </option>
+            </select>
+          </div>
+          </div>
+        </div>
+        <div class="row pt-3">
+          <div class="col-4 text-left">
+            <button class="btn btn-danger" type="button" (click)="closeModal()">
+              <i class="fas fa-times-circle mr-1"></i>Huỷ bỏ
+            </button>
+            <button class="btn btn-primary" type="button" (click)="submit()">
+              <i class="fas fa-check mr-1"></i>Xác nhận
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
